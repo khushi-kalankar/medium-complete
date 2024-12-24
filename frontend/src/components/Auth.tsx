@@ -8,21 +8,21 @@ import axios from "axios";
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
   const [postInputs, setPostInputs] = useState<SigninInput>({
-
     username: "",
     password: "",
   });
 
   async function sendRequest(){
     try {
+        console.log('request body: ', postInputs);
         const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type ==="signup"?"signup": "signin" }`,postInputs,
           {
             headers: {
-              "Conent-Type": "application/json",
+              "Content-Type": "application/json",
             }
           }
         );
-        const jwt = response.data;
+        const jwt = response.data.jwt;
         localStorage.setItem("token",jwt);
         navigate("/blogs")
     } catch (error) {
